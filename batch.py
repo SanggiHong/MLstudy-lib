@@ -11,11 +11,9 @@ class Batch(object):
 		self.pointer = 0
 
 	def next_batch(self, batch_size):
-		if(self.pointer >= self.length):
-			self.pointer = 0
-		if(self.pointer + batch_size > self.length):
-			feature_batch = np.concatenate(self.feature_matrix[ self.pointer: ], self.feature_matrix[ :self.pointer+batch_size-self.length ])
-			label_batch = np.concatenate(self.label_matrix[ self.pointer: ], self.label_matrix[ :self.pointer+batch_size-self.length ])
+		if(self.pointer + batch_size > self.length-1):
+			feature_batch = np.concatenate((self.feature_matrix[ self.pointer: ], self.feature_matrix[ :self.pointer+batch_size-self.length ]), axis=0)
+			label_batch = np.concatenate((self.label_matrix[ self.pointer: ], self.label_matrix[ :self.pointer+batch_size-self.length ]), axis=0)
 
 			self.pointer = self.pointer + batch_size - self.length
 		else:
